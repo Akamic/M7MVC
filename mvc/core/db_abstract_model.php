@@ -9,19 +9,26 @@ abstract class DBAbstractModel {
     protected $rows = array();
     private $conn;
     public $mensaje = 'Hecho';
-    
+    protected $error_conn=false;
+    public $error_query;
 
     # métodos abstractos para ABM de clases que hereden    
     abstract protected function get();
     abstract protected function set();
     abstract protected function edit();
     abstract protected function delete();
-    
+ 
     # los siguientes métodos pueden definirse con exactitud y no son abstractos
 	# Conectar a la base de datos
 	private function open_connection() {
+		
 	    $this->conn = new mysqli(self::$db_host, self::$db_user, 
 	                             self::$db_pass, $this->db_name);
+	  
+		if($conn->connect_errno){
+			die('Error de conexion'. mysqli_connect_errno());
+			$this->error_conn = true;
+		}	                        
 	}
 
 	# Desconectar la base de datos
