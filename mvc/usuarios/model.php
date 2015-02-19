@@ -81,6 +81,9 @@ class Usuario extends DBAbstractModel {
                 WHERE           email = '$user_email'
         ";
         $this->execute_single_query();
+       /*if(!$this->error_query) $this->mensaje= "usuario eliminado" 
+			 * else{$this-> mensaje = 'usuario no existente';}
+			 * */
         $this->mensaje = 'Usuario eliminado';
     }
 
