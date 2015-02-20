@@ -43,29 +43,30 @@ abstract class DBAbstractModel {
 	        $this->conn->query($this->query);
 	        $this->close_connection();
 	    } 
-	    if(!$this->error_conn){
-			if(!$this->error_conn){
-			$this->error_query=$this->conn->query($this->query); // guarad el resultat de la query
-				$this->close_connection();
-			}
-			else{$this->mensaje = 'error de conexion con la Base de datos';
-			}
-	   else{ /*Si no pot fer insert, ni delete ni update:*/
-			$this->error_query = true;
-	        $this->mensaje = 'Metodo no permitido';
-	    }
+				if(!$this->error_conn){
+					if(!$this->error_conn){
+					$this->error_query=$this->conn->query($this->query); // guarad el resultat de la query
+						$this->close_connection();
+					}else{$this->mensaje = 'error de conexion con la Base de datos'; }		   
+		}else{ /*Si no pot fer insert, ni delete ni update:*/
+					$this->error_query = true;
+					$this->mensaje = 'Metodo no permitido';
+				}
 	}
 
 	# Traer resultados de una consulta en un Array
 	protected function get_results_from_query() {
         $this->open_connection();
-        if(!$this->error_conn){ /*ULTIMA MODIFICACION ESTA LINIA  EN ESTA FUNCION*********************************/
+        if(!$this->error_conn){ /*19/02/2015*/
 			$result = $this->conn->query($this->query);
 			while ($this->rows[] = $result->fetch_assoc());
 			$result->close();
 			$this->close_connection();
 			array_pop($this->rows);
-		}
+		}else{
+				$this->error_query = true;
+				$this->mensaje = 'Metodo no permitido';
+			}
 	}
 }
 ?>
