@@ -42,17 +42,25 @@ abstract class DBAbstractModel {
 	        $this->open_connection();
 	        $this->conn->query($this->query);
 	        $this->close_connection();
-	    } 
 				if(!$this->error_conn){
-					if(!$this->error_conn){
-					$this->error_query=$this->conn->query($this->query); // guarad el resultat de la query
-						$this->close_connection();
-					}else{$this->mensaje = 'error de conexion con la Base de datos'; }		   
-		}else{ /*Si no pot fer insert, ni delete ni update:*/
-					$this->error_query = true;
-					$this->mensaje = 'Metodo no permitido';
-				}
+						$this->error_query=$this->conn->query($this->query); // guarda el resultat de la query
+						}else{
+							$this->mensaje = 'error de conexion con la Base de datos'; 
+						}
+					if(!$mysqli->query){
+						$this->error_query = true;
+						$this->mensaje = 'Metodo no permitido';
+						$this->close_connection();	
+						}else{
+							$this->error_query = true;
+							}	
+							   
+			}else{ /*Si no pot fer insert, ni delete ni update:*/
+				$this->error_conn = true;
+				$this->mensaje = 'Metodo no permitido';
+			}		
 	}
+	
 
 	# Traer resultados de una consulta en un Array
 	protected function get_results_from_query() {

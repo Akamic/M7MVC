@@ -71,8 +71,12 @@ class Usuario extends DBAbstractModel {
                 WHERE       email = '$email'
         ";
         $this->execute_single_query();
-        $this->mensaje = 'Usuario modificado';
-    }
+         if(!$this->error_query){ $this->mensaje= "usuario modificado";  /*modificat*/
+         $this->mensaje = 'Usuario modificado';
+		}else{
+			$this->mensaje = 'Usuario NO modificado';
+			}
+	}
 
     # Eliminar un usuario
     public function delete($user_email='') {
@@ -81,10 +85,15 @@ class Usuario extends DBAbstractModel {
                 WHERE           email = '$user_email'
         ";
         $this->execute_single_query();
-       /*if(!$this->error_query) $this->mensaje= "usuario eliminado" 
-			 * else{$this-> mensaje = 'usuario no existente';}
-			 * */
-        $this->mensaje = 'Usuario eliminado';
+       if($this->error_query){ 
+		    $this->mensaje= "Usuario eliminado"; 
+			 var_dump($this->mensaje);
+			 }else{/*NO ENTRA EN EL ELSE AUNQUE PONGA USUARIO NO EXISTENTE*/
+				
+				  $this->mensaje = "Usuario NO existente";
+				 var_dump($this->mensaje);
+			 }	
+       
     }
 
     # Método constructor
