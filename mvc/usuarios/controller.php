@@ -26,13 +26,18 @@ function handler() {
             retornar_vista(VIEW_SET_USER, $data);
             break;
         case GET_USER:
-            $usuario->get($user_data);
-            $data = array(
-                'nombre'=>$usuario->nombre,
-                'apellido'=>$usuario->apellido,
-                'email'=>$usuario->email
-            );
-            retornar_vista(VIEW_EDIT_USER, $data);
+			$usuario->get($user_data);
+			if($usuario->email != null) {
+				$data = array(
+					'nombre'=>$usuario->nombre,
+					'apellido'=>$usuario->apellido,
+					'email'=>$usuario->email
+				);
+				retornar_vista(VIEW_EDIT_USER, $data);
+			} else {
+				$data = array('mensaje'=>$usuario->mensaje);
+				retornar_vista(VIEW_GET_USER, $data);
+			}
             break;
         case DELETE_USER:
             $usuario->delete($user_data['email']);

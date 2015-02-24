@@ -31,7 +31,7 @@ class Usuario extends DBAbstractModel {
             }
             $this->mensaje = 'Usuario encontrado';
         } else {
-            $this->mensaje = 'Usuario no encontrado';
+			$this->mensaje = 'Usuario NO existente';
         }
     }
 
@@ -61,38 +61,43 @@ class Usuario extends DBAbstractModel {
 
     # Modificar un usuario
     public function edit($user_data=array()) {
-        foreach ($user_data as $campo=>$valor) {
-            $$campo = $valor;
-        }
-        $this->query = "
-                UPDATE      usuarios
-                SET         nombre='$nombre',
-                            apellido='$apellido'
-                WHERE       email = '$email'
-        ";
-        $this->execute_single_query();
-         if(!$this->error_query){ $this->mensaje= "usuario modificado";  /*modificat*/
-         $this->mensaje = 'Usuario modificado';
+		foreach ($user_data as $campo=>$valor) {
+			$$campo = $valor;
+		}
+		$this->query = "
+               UPDATE      usuarios
+               SET         nombre='$nombre',
+                           apellido='$apellido'
+               WHERE       email = '$email'
+		";
+		$this->execute_single_query();
+		if(!$this->error_query){ $this->mensaje= "usuario modificado";  /*modificat*/
+			$this->mensaje = 'Usuario modificado';
 		}else{
 			$this->mensaje = 'Usuario NO modificado';
-			}
+		}
 	}
 
     # Eliminar un usuario
     public function delete($user_email='') {
-        $this->query = "
-                DELETE FROM     usuarios
+		$this->query = "
+                SELECT id FROM     usuarios
                 WHERE           email = '$user_email'
         ";
-        $this->execute_single_query();
-       if($this->error_query){ 
-		    $this->mensaje= "Usuario eliminado"; 
-			 var_dump($this->mensaje);
-			 }else{/*NO ENTRA EN EL ELSE AUNQUE PONGA USUARIO NO EXISTENTE*/
-				
-				  $this->mensaje = "Usuario NO existente";
-				 var_dump($this->mensaje);
-			 }	
+        
+        $this->get_results_from_query();
+        if(count($this->rows) > 0) {
+			$this->query = "
+                DELETE FROM     usuarios
+                WHERE           email = '$user_email'
+			";
+			$this->execute_single_query();
+			if(!$this->error_query){ 
+				$this->mensaje= "Usuario eliminado"; 
+			}
+		} else {
+			$this->mensaje= "Usuario no existente";
+		}
        
     }
 
