@@ -71,8 +71,7 @@ class Usuario extends DBAbstractModel {
                WHERE       email = '$email'
 		";
 		$this->execute_single_query();
-		if(!$this->error_query){ $this->mensaje= "usuario modificado";  /*modificat*/
-			$this->mensaje = 'Usuario modificado';
+		if(!$this->error_query){ $this->mensaje= 'Usuario modificado';  /*modificat*/
 		}else{
 			$this->mensaje = 'Usuario NO modificado';
 		}
