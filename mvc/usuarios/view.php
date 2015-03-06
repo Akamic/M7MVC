@@ -1,14 +1,13 @@
 <?php
 
-
 /*contindrà el diccionari de traducció */
 class UsuarioVista{
 	private $html_vista; //contindrà el codi html que es generi, per una vista determinada
 	private $url_aplicacion; //contindrà la ruta relativa on son els codis de l’aplicació MVC 
 	private	$diccionario;
 	
-	function diccionario(){
-	$this->diccionario = array(
+	public function __construct(){
+	 $this->diccionario = array(
 			'subtitle'=>array(VIEW_SET_USER=>'Crear un nuevo usuario',
 							  VIEW_GET_USER=>'Buscar usuario',
 							  VIEW_DELETE_USER=>'Eliminar un usuario',
@@ -42,13 +41,13 @@ class UsuarioVista{
 		}
 
 		function retornar_vista($vista, $data=array()) {
-			global $diccionario;
-			$html = get_template('template');
-			$html = str_replace('{subtitulo}', $diccionario['subtitle'][$vista], $html);
-			$html = str_replace('{formulario}', get_template($vista), $html);
-			$html = render_dinamic_data($html, $diccionario['form_actions']);
-			$html = render_dinamic_data($html, $diccionario['links_menu']);
-			$html = render_dinamic_data($html, $data);
+			// $this->diccionario;
+			$this->html_vista = $this->get_template('template');
+			$this->html_vista = str_replace('{subtitulo}', $this->diccionario['subtitle'][$vista], $this->html_vista);
+			$this->html_vista = str_replace('{formulario}', $this->get_template($vista), $this->html_vista);
+			$this->html_vista =  $this->render_dinamic_data($this->html_vista, $this->diccionario['form_actions']);
+			$this->html_vista =  $this->render_dinamic_data($this->html_vista, $this->diccionario['links_menu']);
+			$this->html_vista =  $this->render_dinamic_data($this->html_vista, $data);
 
 			// render {mensaje}
 			if(array_key_exists('nombre', $data)&&
@@ -62,9 +61,9 @@ class UsuarioVista{
 					$mensaje = 'Datos del usuario:';
 				}
 			}
-			$html = str_replace('{mensaje}', $mensaje, $html);
+			$this->html_vista = str_replace('{mensaje}', $mensaje, $this->html_vista);
 
-			print $html;
+			print $this->html_vista;
 		}
 }
 ?>

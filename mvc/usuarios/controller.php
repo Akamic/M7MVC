@@ -17,13 +17,14 @@ function handler() {
     }
 
     $user_data = helper_user_data();
-    $usuario = set_obj();
-
+    $usuario = new Usuario();//set_obj();
+	$viewuser = new UsuarioVista();
+	
     switch ($event) {
         case SET_USER:
             $usuario->set($user_data);
             $data = array('mensaje'=>$usuario->mensaje);
-            retornar_vista(VIEW_SET_USER, $data);
+            $viewuser->retornar_vista(VIEW_SET_USER, $data);
             break;
         case GET_USER:
 			$usuario->get($user_data);
@@ -33,24 +34,24 @@ function handler() {
 					'apellido'=>$usuario->apellido,
 					'email'=>$usuario->email
 				);
-				retornar_vista(VIEW_EDIT_USER, $data);
+				$viewuser->retornar_vista(VIEW_EDIT_USER, $data);
 			} else {
 				$data = array('mensaje'=>$usuario->mensaje);
-				retornar_vista(VIEW_GET_USER, $data);
+				$viewuser->retornar_vista(VIEW_GET_USER, $data);
 			}
             break;
         case DELETE_USER:
             $usuario->delete($user_data['email']);
             $data = array('mensaje'=>$usuario->mensaje);
-            retornar_vista(VIEW_DELETE_USER, $data);
+            $viewuser->retornar_vista(VIEW_DELETE_USER, $data);
             break;
         case EDIT_USER:
             $usuario->edit($user_data);
             $data = array('mensaje'=>$usuario->mensaje);
-            retornar_vista(VIEW_GET_USER, $data);
+            $viewuser->retornar_vista(VIEW_GET_USER, $data);
             break;
         default:
-            retornar_vista($event);
+            $viewuser->retornar_vista($event);
     }
 }
 
