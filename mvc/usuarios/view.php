@@ -3,7 +3,7 @@
 /*contindrà el diccionari de traducció */
 class UsuarioVista{
 	private $html_vista; //contindrà el codi html que es generi, per una vista determinada
-	private $url_aplicacion; //contindrà la ruta relativa on son els codis de l’aplicació MVC 
+	private $url_aplicacion = '/uf2/mvc/'; //contindrà la ruta relativa on son els codis de l’aplicació MVC 
 	private	$diccionario;
 	
 	public function __construct(){
@@ -20,10 +20,10 @@ class UsuarioVista{
 				'VIEW_DELETE_USER'=>MODULO.VIEW_DELETE_USER.'/'
 			),
 			'form_actions'=>array(
-				'SET'=>'/uf2/mvc/'.MODULO.SET_USER.'/',
-				'GET'=>'/uf2/mvc/'.MODULO.GET_USER.'/',
-				'DELETE'=>'/uf2/mvc/'.MODULO.DELETE_USER.'/',
-				'EDIT'=>'/uf2/mvc/'.MODULO.EDIT_USER.'/'
+				'SET'=>$this->url_aplicacion.MODULO.SET_USER.'/',
+				'GET'=>$this->url_aplicacion.MODULO.GET_USER.'/',
+				'DELETE'=>$this->url_aplicacion.MODULO.DELETE_USER.'/',
+				'EDIT'=>$this->url_aplicacion.MODULO.EDIT_USER.'/'
 			)
 		);
 	}
@@ -65,5 +65,15 @@ class UsuarioVista{
 
 			print $this->html_vista;
 		}
+		
+		function set_url_aplicacion($url_aplicacion){
+			$this->url_aplicacion = $url_aplicacion;			
+		}
+	
+		# Método destructor del objeto
+		function __destruct() {
+			unset($this);
+		}
+
 }
 ?>
